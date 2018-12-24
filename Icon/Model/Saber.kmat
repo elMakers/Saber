@@ -1,0 +1,12 @@
+{
+	"global" : {},
+	"materials" : 
+	[
+		{
+			"albedo" : "Icon/Model/Saber_Albedo.png",
+			"blendmode" : "opaque",
+			"name" : "com_elmakers_saber_MainMat",
+			"shaderName" : "UnlitTextured"
+		}
+	]
+}
