@@ -2,7 +2,7 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class Saber : MonoBehaviour
+public class Swing : MonoBehaviour
 {
 	public AudioClip[] SwingSounds;
 	public AudioSource SwingSource;
@@ -12,6 +12,7 @@ public class Saber : MonoBehaviour
 	public int SpeedSamples = 30;
 	
 	private Rigidbody _body;
+	private Extend _extend;
 	
 	// State
 	private Vector3 _lastLocation;
@@ -24,13 +25,13 @@ public class Saber : MonoBehaviour
 	void Start () 
 	{
 		_body = TipLocation.GetComponent<Rigidbody>();
+		_extend = GetComponent<Extend>();
 		_speedSamples = new float[SpeedSamples];
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		
 		if (_lastLocation == Vector3.zero)
 		{
 			_lastLocation = _body.position;
@@ -55,7 +56,7 @@ public class Saber : MonoBehaviour
 		var averageSpeed = speedTotal / speedCount;
 		//Debug.Log("Speed: " + speed + ", avg: " + averageSpeed + " from " + _body.position);
 			
-		if (averageSpeed >= MinimumSwingSpeed)
+		if (averageSpeed >= MinimumSwingSpeed && _extend.Extended())
 		{
 			// Debug.Log("SWING? " + currentTime + " : " + (_lastSwingSound + SwingSoundTimeout) + ", speed: " + averageSpeed);
 			if (currentTime < _lastSwingSound + SwingSoundTimeout) return;
