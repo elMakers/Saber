@@ -46,10 +46,6 @@ sysinfo.txt
 Assets/Plugins/*
 Assets/Plugins.meta
 
-# Magic Leap Assets
-Assets/MagicLeap/*
-Assets/MagicLeap.meta
-
 # Unity Post-Processing Pipeline
 Assets/PostProcessing.meta
 Assets/PostProcessing/*
