@@ -74,6 +74,11 @@ namespace MagicKit
             }
         }
 
+        public MLInputController Controller
+        {
+            get { return _controller; }
+        }
+
         // ------ Private Members ------
 
 

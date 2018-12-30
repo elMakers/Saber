@@ -1,6 +1,7 @@
 ﻿using System;
 using MagicKit;
 using UnityEngine;
+using UnityEngine.XR.MagicLeap;
 
 public class Extend : MonoBehaviour {
 	// Properties
@@ -22,6 +23,22 @@ public class Extend : MonoBehaviour {
 	{
 		_input = GetComponent<ControllerInput>();
 		_input.OnTriggerDown += OnTriggerDown;
+		_input.OnTouchUp += OnTouchUp;
+	}
+
+	void OnTouchUp()
+	{
+		if (_animating) return;
+		if (_input.Controller.TouchpadGesture.Type != MLInputControllerTouchpadGestureType.Swipe) return;
+
+		if (_input.Controller.TouchpadGesture.Direction == MLInputControllerTouchpadGestureDirection.Down)
+		{
+			StartRetracting();
+		}
+		else if (_input.Controller.TouchpadGesture.Direction == MLInputControllerTouchpadGestureDirection.Up)
+		{
+			StartExtending();
+		}
 	}
 
 	void OnTriggerDown()
@@ -30,20 +47,38 @@ public class Extend : MonoBehaviour {
 
 		if (_extended)
 		{
-			RetractSound.Play();
+			StartRetracting();
 		}
 		else
 		{
-			ExtendSound.Play();
+			StartExtending();
 		}
+	}
 
+	private void ChangeState()
+	{
 		_animationStart = Time.time;
 		_animating = true;
-		_extended = !_extended;
+	}
+
+	private void StartExtending()
+	{
+		if (_animating || _extended) return;
+		ChangeState();
+		ExtendSound.Play();
+		_extended = true;
+	}
+
+	private void StartRetracting()
+	{
+		if (_animating || !_extended) return;
+		ChangeState();
+		RetractSound.Play();
+		_extended = false;
 	}
 
 	void Update () 
-	{
+	{		
 		if (_animating && Time.time > _animationStart + Duration)
 		{
 			_animating = false;
