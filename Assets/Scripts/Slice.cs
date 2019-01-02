@@ -13,6 +13,9 @@ public class Slice : MonoBehaviour {
 	public int ParticleQueueSize = 50;
 	public float SliceSoundMinCooldown = 0.1f;
 	public float SliceSoundMaxCooldown = 0.5f;
+	public ParticleSystem InnerDecalParticleSystem;
+	public ParticleSystem OuterDecalParticleSystem;
+	public float ParticleOffset = 0.001f;
 	
 	// Components
 	private Extend _extend;
@@ -20,7 +23,7 @@ public class Slice : MonoBehaviour {
 	private Vector3 _extents;
 	private GameObject[] _particleQueue;
 	private int _particleQueueIndex;
-	private float _lastSound = 0;
+	private float _lastSound;
 	private float _sliceSoundCooldown;
 	
 	void Start()
@@ -49,8 +52,10 @@ public class Slice : MonoBehaviour {
 		var hitting = Physics.BoxCast(position, _extents, direction, out _hit, transform.rotation, Length);
 		if (hitting)
 		{
-			//Debug.Log("Hit : " + _hit.collider.name);
-			//Debug.DrawLine(_hit.point, _hit.point + _hit.normal * Length, Color.red, 5.0f, false);
+			// Debug.DrawLine(_hit.point, _hit.point + _hit.normal * Length, Color.red, 5.0f, false);
+			// Debug.Log("Hit: " + _hit.normal);
+			
+			// Play Sound
 			if (Time.time > _lastSound + _sliceSoundCooldown)
 			{
 				ResetSliceCooldown();
@@ -60,10 +65,12 @@ public class Slice : MonoBehaviour {
 				Sound.PlayOneShot(Sound.clip);
 			}
 
+			// Play spark particles
+			var particleRotation = Quaternion.LookRotation(_hit.normal);
 			var particles = _particleQueue[_particleQueueIndex];
 			if (particles == null)
 			{
-				particles = Instantiate(Sparks, _hit.point, Quaternion.LookRotation(_hit.normal));
+				particles = Instantiate(Sparks, _hit.point, particleRotation);
 				_particleQueue[_particleQueueIndex] = particles;
 			}
 			else
@@ -75,10 +82,26 @@ public class Slice : MonoBehaviour {
 				}
 
 				system.transform.position = _hit.point;
-				system.transform.rotation = Quaternion.LookRotation(_hit.normal);
+				system.transform.rotation = particleRotation;
 				system.Play();
 			}
 			_particleQueueIndex = (_particleQueueIndex + 1) % ParticleQueueSize;
+			
+			// Add decal particle
+			var mainConfig = InnerDecalParticleSystem.main;
+			var rotation = Mathf.Deg2Rad * particleRotation.eulerAngles;
+			mainConfig.startRotationX = rotation.x;
+			mainConfig.startRotationY = rotation.y;
+			mainConfig.startRotationZ = rotation.z;
+			InnerDecalParticleSystem.transform.position = _hit.point + _hit.normal * ParticleOffset;
+			InnerDecalParticleSystem.Emit(1);
+
+			mainConfig = OuterDecalParticleSystem.main;
+			mainConfig.startRotationX = rotation.x;
+			mainConfig.startRotationY = rotation.y;
+			mainConfig.startRotationZ = rotation.z;
+			OuterDecalParticleSystem.transform.position = _hit.point + _hit.normal * ParticleOffset * 2;
+			OuterDecalParticleSystem.Emit(1);
 		}
 	}
 }

@@ -14,7 +14,7 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - 
+  - World
   - 
   - 
   - 
@@ -38,6 +38,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Outer
+    uniqueID: 3622989991
+    locked: 0
+  - name: Inner
+    uniqueID: 3912266221
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
