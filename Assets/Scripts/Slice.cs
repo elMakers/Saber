@@ -19,8 +19,6 @@ public class Slice : MonoBehaviour {
 	
 	// Components
 	private Extend _extend;
-	private RaycastHit _hit;
-	private Vector3 _extents;
 	private GameObject[] _particleQueue;
 	private int _particleQueueIndex;
 	private float _lastSound;
@@ -29,7 +27,6 @@ public class Slice : MonoBehaviour {
 	void Start()
 	{
 		_extend = GetComponent<Extend>();
-		_extents = new Vector3(Width, Width, Width);
 		_particleQueue = new GameObject[ParticleQueueSize];
 		ResetSliceCooldown();
 	}
@@ -49,8 +46,8 @@ public class Slice : MonoBehaviour {
 		
 		// Debug.DrawLine(position, position + direction * Length, Color.yellow, 2.0f, false);
 			
-		var hitting = Physics.BoxCast(position, _extents, direction, out _hit, transform.rotation, Length);
-		if (hitting)
+		var hits = Physics.RaycastAll(position, direction, Length);
+		foreach (var hit in hits)
 		{
 			// Debug.DrawLine(_hit.point, _hit.point + _hit.normal * Length, Color.red, 5.0f, false);
 			// Debug.Log("Hit: " + _hit.normal);
@@ -61,16 +58,16 @@ public class Slice : MonoBehaviour {
 				ResetSliceCooldown();
 				_lastSound = Time.time;
 				Sound.pitch = Random.Range(MinPitch, MaxPitch);
-				Sound.transform.position = _hit.point;
+				Sound.transform.position = hit.point;
 				Sound.PlayOneShot(Sound.clip);
 			}
 
 			// Play spark particles
-			var particleRotation = Quaternion.LookRotation(_hit.normal);
+			var particleRotation = Quaternion.LookRotation(hit.normal);
 			var particles = _particleQueue[_particleQueueIndex];
 			if (particles == null)
 			{
-				particles = Instantiate(Sparks, _hit.point, particleRotation);
+				particles = Instantiate(Sparks, hit.point, particleRotation);
 				_particleQueue[_particleQueueIndex] = particles;
 			}
 			else
@@ -81,7 +78,7 @@ public class Slice : MonoBehaviour {
 					system.Stop();
 				}
 
-				system.transform.position = _hit.point;
+				system.transform.position = hit.point;
 				system.transform.rotation = particleRotation;
 				system.Play();
 			}
@@ -93,14 +90,14 @@ public class Slice : MonoBehaviour {
 			mainConfig.startRotationX = rotation.x;
 			mainConfig.startRotationY = rotation.y;
 			mainConfig.startRotationZ = rotation.z;
-			InnerDecalParticleSystem.transform.position = _hit.point + _hit.normal * ParticleOffset;
+			InnerDecalParticleSystem.transform.position = hit.point + hit.normal * ParticleOffset;
 			InnerDecalParticleSystem.Emit(1);
 
 			mainConfig = OuterDecalParticleSystem.main;
 			mainConfig.startRotationX = rotation.x;
 			mainConfig.startRotationY = rotation.y;
 			mainConfig.startRotationZ = rotation.z;
-			OuterDecalParticleSystem.transform.position = _hit.point + _hit.normal * ParticleOffset * 2;
+			OuterDecalParticleSystem.transform.position = hit.point + hit.normal * ParticleOffset * 2;
 			OuterDecalParticleSystem.Emit(1);
 		}
 	}
