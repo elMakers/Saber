@@ -201,6 +201,25 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8570ff97df466c14b9fcbe22d6eb4490, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &286080668 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1255098403846012, guid: 8570ff97df466c14b9fcbe22d6eb4490,
+    type: 2}
+  m_PrefabInternal: {fileID: 239139768}
+--- !u!114 &286080669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 286080668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf8c73170fb94852827d451606635ba7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Occlusion: {fileID: 15302, guid: 0000000000000000f000000000000000, type: 0}
+  Wireframe: {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
+  Input: {fileID: 1786997106}
 --- !u!1001 &364737318
 Prefab:
   m_ObjectHideFlags: 0
@@ -5818,7 +5837,8 @@ MonoBehaviour:
   Sparks: {fileID: 1795137869907736, guid: e3d77d2bc8fd14b578298b70d5adabe3, type: 2}
   Source: {fileID: 1181844269}
   Length: 0.5
-  Width: 0.017
+  Width: 0.012
+  AdjacentCount: 8
   Sound: {fileID: 1721204622}
   MinPitch: 0.5
   MaxPitch: 0.5
