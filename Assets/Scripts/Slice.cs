@@ -3,32 +3,67 @@
 public class Slice : MonoBehaviour {
 	// Properties
 	public GameObject Sparks;
-	public Extend Extend;
+	public GameObject Source;
+	public float Length = 0.5f;
+	public float Width = 0.017f;
+	public Renderer Blade;
+	public AudioSource Sound;
+	public float MinPitch = 0.5f;
+	public float MaxPitch = 0.5f;
+	public int ParticleQueueSize = 50;
 	
-	void Start () 
+	// Components
+	public Extend _extend;
+	public RaycastHit _hit;
+	public Vector3 _extents;
+	public GameObject[] _particleQueue;
+	public int _particleQueueIndex;
+	
+	void Start()
 	{
+		_extend = GetComponent<Extend>();
+		_extents = new Vector3(Width, Width, Width);
+		_particleQueue = new GameObject[ParticleQueueSize];
 	}
 	
-	void Update ()
+	void Update()
 	{
-		if (!Extend.Extended()) return;
-		
-		
-	}
+		if (!_extend.Extended()) return;
 
-	void OnTriggerEnter(Collider collider)
-	{
-		Debug.Log("Triggered");
-	}
-
-	void OnCollisionEnter(Collision collision)
-	{
-		Debug.Log("Collided");
-		if (!Extend.Extended()) return;
+		var transform = Source.transform;
+		var position = transform.position;
+		var direction = transform.up;
 		
-		foreach (ContactPoint contact in collision.contacts)
+		// Debug.DrawLine(position, position + direction * Length, Color.yellow, 2.0f, false);
+			
+		var hitting = Physics.BoxCast(position, _extents, direction, out _hit, transform.rotation, Length);
+		if (hitting)
 		{
-			Debug.DrawRay(contact.point, contact.normal, Color.white);
+			//Debug.Log("Hit : " + _hit.collider.name);
+			//Debug.DrawLine(_hit.point, _hit.point + _hit.normal * Length, Color.red, 5.0f, false);
+			Sound.pitch = Random.Range(MinPitch, MaxPitch);
+			Sound.transform.position = _hit.point;
+			Sound.PlayOneShot(Sound.clip);
+
+			var particles = _particleQueue[_particleQueueIndex];
+			if (particles == null)
+			{
+				particles = Instantiate(Sparks, _hit.point, Quaternion.LookRotation(_hit.normal));
+				_particleQueue[_particleQueueIndex] = particles;
+			}
+			else
+			{
+				ParticleSystem system = particles.GetComponent<ParticleSystem>();
+				if (system.isPlaying)
+				{
+					system.Stop();
+				}
+
+				system.transform.position = _hit.point;
+				system.transform.rotation = Quaternion.LookRotation(_hit.normal);
+				system.Play();
+			}
+			_particleQueueIndex = (_particleQueueIndex + 1) % ParticleQueueSize;
 		}
 	}
 }

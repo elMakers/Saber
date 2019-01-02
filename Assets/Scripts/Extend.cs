@@ -108,6 +108,6 @@ public class Extend : MonoBehaviour {
 
 	public Boolean Extended()
 	{
-		return _extended && !_animating;
+		return _extended || (!_extended && _animating);
 	}
 }
