@@ -13,7 +13,22 @@ ModelImporter:
     4300000: Circle
     7400000: Default Take
     9500000: //RootNode
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material_001
+    second: {fileID: 2100000, guid: 9cb5ec353018c49d8babcfa5116bad30, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material_002
+    second: {fileID: 2100000, guid: c49ba0b699c6847baa27ca66902861f2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material_003
+    second: {fileID: 2100000, guid: 3e92acb43d88347afa207f3d4ccd8053, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
