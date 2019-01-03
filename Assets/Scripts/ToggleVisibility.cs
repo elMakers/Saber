@@ -18,7 +18,6 @@ public class ToggleVisibility : MonoBehaviour {
 	
 	void OnBumperDown()
 	{
-
 		Material[] materials1 = _renderer.materials;
 		materials1[0] = Wireframe;
 		_renderer.materials = materials1;
