@@ -11,6 +11,9 @@ public class Slice : MonoBehaviour
 	public float Width = 0.017f;
 	public int AdjacentCount = 8;
 	public AudioSource Sound;
+	public AudioSource CrackleSound;
+	public float CrackleSoundMinCooldown = 0.05f;
+	public float CrackleSoundMaxCooldown = 0.2f;
 	public float MinPitch = 0.5f;
 	public float MaxPitch = 1.5f;
 	public int ParticleQueueSize = 50;
@@ -25,14 +28,17 @@ public class Slice : MonoBehaviour
 	private Extend _extend;
 	private GameObject[] _particleQueue;
 	private int _particleQueueIndex;
-	private float _lastSound;
+	private float _lastSliceSound;
+	private float _lastCrackleSound;
 	private float _sliceSoundCooldown;
+	private float _crackleSoundCooldown;
 	private ParticleSystem.Particle[] _particles;
 	private int _particlePurgeIndex;
 	private RaycastHit[] _hits;
 	private RaycastHit[] _adjacentHits;
 	private Vector3 _lastHit;
 	private bool _isFirstHit = true;
+	private bool _isHit = false;
 
 	void Start()
 	{
@@ -42,11 +48,17 @@ public class Slice : MonoBehaviour
 		_hits = new RaycastHit[8];
 		_adjacentHits = new RaycastHit[1];
 		ResetSliceCooldown();
+		ResetCrackleCooldown();
 	}
 
 	void ResetSliceCooldown()
 	{
 		_sliceSoundCooldown = Random.Range(SliceSoundMinCooldown, SliceSoundMaxCooldown);
+	}
+
+	void ResetCrackleCooldown()
+	{
+		_crackleSoundCooldown = Random.Range(CrackleSoundMinCooldown, CrackleSoundMaxCooldown);
 	}
 
 	void PlaySparks(RaycastHit hit, Quaternion particleRotation)
@@ -162,19 +174,36 @@ public class Slice : MonoBehaviour
 		// Raycast to check for surfaces to slice
 		
 		// Debug.DrawLine(position, position + direction * Length, Color.yellow, 2.0f, false);
+		var wasHit = _isHit;
+		_isHit = false;
 		var hitCount = Physics.RaycastNonAlloc(position, direction, _hits, Length);
 		if (hitCount == 0) return;
 		var firstHit = _hits[0];
 		Vector3[] interpolateTargets = null;
+		_isHit = true;
 		
 		// Play Sound
-		if (Time.time > _lastSound + _sliceSoundCooldown)
+		if (wasHit)
 		{
-			ResetSliceCooldown();
-			_lastSound = Time.time;
-			Sound.pitch = Random.Range(MinPitch, MaxPitch);
-			Sound.transform.position = firstHit.point;
-			Sound.PlayOneShot(Sound.clip);
+			if (Time.time > _lastCrackleSound + _crackleSoundCooldown)
+			{
+				ResetCrackleCooldown();
+				_lastCrackleSound = Time.time;
+				CrackleSound.pitch = Random.Range(MinPitch, MaxPitch);
+				CrackleSound.transform.position = firstHit.point;
+				CrackleSound.PlayOneShot(CrackleSound.clip);
+			}
+		}
+		else
+		{
+			if (Time.time > _lastSliceSound + _sliceSoundCooldown)
+			{
+				ResetSliceCooldown();
+				_lastSliceSound = Time.time;
+				Sound.pitch = Random.Range(MinPitch, MaxPitch);
+				Sound.transform.position = firstHit.point;
+				Sound.PlayOneShot(Sound.clip);
+			}
 		}
 
 		// Check for distance travelled and interpolate
