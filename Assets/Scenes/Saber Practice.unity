@@ -1043,7 +1043,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 1000
+    maxNumParticles: 10000
     size3D: 0
     rotation3D: 1
     gravityModifier:
@@ -5879,6 +5879,7 @@ MonoBehaviour:
   InnerDecalParticleSystem: {fileID: 1879137112}
   OuterDecalParticleSystem: {fileID: 866050156}
   ParticleOffset: 0.001
+  DecalMinDistance: 0.005
 --- !u!4 &1846058694 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: fcbe2bfdc2486466dae800d7aa08bcc6, type: 3}
@@ -6533,7 +6534,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 1000
+    maxNumParticles: 10000
     size3D: 0
     rotation3D: 1
     gravityModifier:
