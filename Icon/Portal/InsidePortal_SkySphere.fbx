@@ -467,7 +467,7 @@ Objects:  {
 		Shading: T
 		Culling: "CullingOff"
 	}
-	Material: 2704461935872, "Material::com_magicleap_iconcreation_InsidePortal_SkySphere_Mat", "" {
+	Material: 2704461935872, "Material::com_elmakers_saber_InsidePortal_SkySphere_Mat", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -504,6 +504,6 @@ Connections:  {
 	;Geometry::, Model::SkySphere
 	C: "OO",2704463014528,2704360538016
 	
-	;Material::com_magicleap_iconcreation_InsidePortal_SkySphere_Mat, Model::SkySphere
+	;Material::com_elmakers_saber_InsidePortal_SkySphere_Mat, Model::SkySphere
 	C: "OO",2704461935872,2704360538016
 }

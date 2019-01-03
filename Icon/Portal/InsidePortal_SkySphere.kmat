@@ -5,7 +5,7 @@
 		{
 			"albedo" : "Icon/Portal/InsidePortal_SkySphere.png",
 			"blendmode" : "opaque",
-			"name" : "com_elmakers_magicwand_InsidePortal_SkySphere_Mat",
+			"name" : "com_elmakers_saber_InsidePortal_SkySphere_Mat",
 			"shaderName" : "UnlitTextured"
 		}
 	]
