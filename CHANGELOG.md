@@ -3,8 +3,9 @@
 ## 0.2
 
  - Add world mesh
+ - Effects on hitting the world
  - Allow swiping up/down to extend/retract the blade
- - Effects on hitting the world (W.I.P.)
+ - Improved portal icon
 
 ## 0.1
 
