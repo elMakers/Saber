@@ -26,12 +26,16 @@ public class Slice : MonoBehaviour {
 	private float _sliceSoundCooldown;
 	private ParticleSystem.Particle[] _particles;
 	private int _particlePurgeIndex;
+	private RaycastHit[] _hits; 
+	private RaycastHit[] _adjacentHits; 
 	
 	void Start()
 	{
 		_extend = GetComponent<Extend>();
 		_particleQueue = new GameObject[ParticleQueueSize];
 		_particles = new ParticleSystem.Particle[InnerDecalParticleSystem.main.maxParticles];
+		_hits = new RaycastHit[8];
+		_adjacentHits = new RaycastHit[1];
 		ResetSliceCooldown();
 	}
 
@@ -49,16 +53,15 @@ public class Slice : MonoBehaviour {
 		var direction = transform.up;
 		
 		// Raycast to check for surfaces to slice
-		var hits = Physics.RaycastAll(position, direction, Length);
-		if (hits.Length == 0) return;
+		var hitCount = Physics.RaycastNonAlloc(position, direction, _hits, Length);
+		if (hitCount == 0) return;
 
-		var firstHit = hits[0];
+		var firstHit = _hits[0];
 		// TODO: Check for distance travelled
 		
 		// Check for particle limit
 		var count = InnerDecalParticleSystem.GetParticles(_particles);
 		if (count == InnerDecalParticleSystem.main.maxParticles) {
-			Debug.Log("Purging " + _particlePurgeIndex + "[" + _particles[_particlePurgeIndex].remainingLifetime + "]");
 			_particles[_particlePurgeIndex].remainingLifetime = -1;
 			InnerDecalParticleSystem.SetParticles(_particles, count);
 			
@@ -75,34 +78,36 @@ public class Slice : MonoBehaviour {
 		
 		// If the middle hit, check surface of blade to see if we are at an edge
 		var adjacentHitCount = 0;
-		var distance = (firstHit.point - position).magnitude + Width;
 		// TODO: Don't use distance, check for same object instead
 		for (var i = 0; i < AdjacentCount; i++)
 		{
 			var angle = new Vector3(Mathf.Cos(Mathf.PI * i / AdjacentCount), Mathf.Sin(Mathf.PI * i / AdjacentCount), 0);
 			var tangent = Vector3.Cross(direction, angle);
 			var adjacentPosition = position + (tangent * Width);
-			if (Physics.Raycast(adjacentPosition, direction, distance))
+			if (Physics.RaycastNonAlloc(adjacentPosition, direction, _adjacentHits, Length) != 0)
 			{
-				adjacentHitCount++;
+				if (_adjacentHits[0].collider == firstHit.collider)
+				{
+					adjacentHitCount++;
+				}
 			}
 			// Debug.DrawLine(adjacentPosition, adjacentPosition + direction * distance, Color.yellow, 2.0f, false);
 		}
 		
-		foreach (var hit in hits)
+		// Play Sound
+		if (Time.time > _lastSound + _sliceSoundCooldown)
+		{
+			ResetSliceCooldown();
+			_lastSound = Time.time;
+			Sound.pitch = Random.Range(MinPitch, MaxPitch);
+			Sound.transform.position = firstHit.point;
+			Sound.PlayOneShot(Sound.clip);
+		}
+		
+		foreach (var hit in _hits)
 		{
 			// Debug.DrawLine(hit.point, hit.point + hit.normal * Length, Color.red, 5.0f, false);
 			// Debug.Log("Hit: " + hit.normal + " adjacent: " + adjacentHitCount);
-			
-			// Play Sound
-			if (Time.time > _lastSound + _sliceSoundCooldown)
-			{
-				ResetSliceCooldown();
-				_lastSound = Time.time;
-				Sound.pitch = Random.Range(MinPitch, MaxPitch);
-				Sound.transform.position = hit.point;
-				Sound.PlayOneShot(Sound.clip);
-			}
 
 			// Play spark particles
 			var particleRotation = Quaternion.LookRotation(hit.normal);
