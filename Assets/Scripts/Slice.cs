@@ -177,7 +177,11 @@ public class Slice : MonoBehaviour
 		var wasHit = _isHit;
 		_isHit = false;
 		var hitCount = Physics.RaycastNonAlloc(position, direction, _hits, Length);
-		if (hitCount == 0) return;
+		if (hitCount == 0)
+		{
+			_isFirstHit = true;
+			return;
+		}
 		var firstHit = _hits[0];
 		Vector3[] interpolateTargets = null;
 		_isHit = true;
