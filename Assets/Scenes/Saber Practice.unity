@@ -6086,7 +6086,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Sparks: {fileID: 1795137869907736, guid: e3d77d2bc8fd14b578298b70d5adabe3, type: 2}
   Source: {fileID: 1181844269}
-  Length: 0.5
+  Length: 0.85
   Width: 0.012
   AdjacentCount: 8
   Sound: {fileID: 1721204622}
