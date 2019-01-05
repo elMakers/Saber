@@ -6,27 +6,31 @@ public class ToggleVisibility : MonoBehaviour {
 	public Material Wireframe;
 	public ControllerInput Input;
 	
-	private Renderer _renderer;
-	private Material[] _materials; 
-
 	void Start ()
 	{
-		_renderer = GetComponent<MeshRenderer>();
 		Input.OnBumperDown += OnBumperDown;
 		Input.OnBumperUp += OnBumperUp;
 	}
 	
 	void OnBumperDown()
 	{
-		Material[] materials1 = _renderer.materials;
-		materials1[0] = Wireframe;
-		_renderer.materials = materials1;
+		SwapMaterial(Wireframe);
 	}
 	
 	void OnBumperUp()
 	{
-		Material[] materials2 = _renderer.materials;
-		materials2[0] = Occlusion;
-		_renderer.materials = materials2;
+		SwapMaterial(Occlusion);
+	}
+
+	private void SwapMaterial(Material material)
+	{
+		foreach (Transform child in transform)
+		{
+			
+			var renderer = child.gameObject.GetComponent<MeshRenderer>();
+			Material[] materials = renderer.materials;
+			materials[0] = material;
+			renderer.materials = materials;
+		}
 	}
 }
