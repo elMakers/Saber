@@ -140,7 +140,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 91eaab0166ca445babc7622e48ffaea2, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.306
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -5294,7 +5294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf8c73170fb94852827d451606635ba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Occlusion: {fileID: 15302, guid: 0000000000000000f000000000000000, type: 0}
+  Occlusion: {fileID: 2100000, guid: 3c4ac84d0661e40708d690a07052c4a5, type: 2}
   Wireframe: {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
   Input: {fileID: 1786997106}
 --- !u!1 &973181131
@@ -5686,7 +5686,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: db5f54c37b8eb4687acc4b3fdb060cc7, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.896
   m_Pitch: 1
   Loop: 1
   Mute: 0
