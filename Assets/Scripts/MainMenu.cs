@@ -7,7 +7,6 @@ public class MainMenu : MonoBehaviour
 	public GameObject MenuLayer;
 	public ControllerInput Controller;
 	public Slice SliceBehavior;
-	public float Distance = 1.0f;
 
 	void Start ()
 	{
@@ -20,8 +19,11 @@ public class MainMenu : MonoBehaviour
 		SliceBehavior.enabled = !MenuLayer.activeSelf;
 		if (MenuLayer.activeSelf)
 		{
-			Vector3 position = Camera.main.transform.position;
-			MenuLayer.transform.position = position + Camera.main.transform.forward * Distance;
+			var distance = SliceBehavior.Length / 2;
+			var transform = SliceBehavior.Source.transform;
+			var position = transform.position;
+			var direction = transform.up;
+			MenuLayer.transform.position = position + direction * distance;
 			var targetRotation = Camera.main.transform.rotation.eulerAngles;
 			targetRotation.x = 0;
 			targetRotation.z = 0;

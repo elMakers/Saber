@@ -4,7 +4,6 @@ using UnityEngine;
 public class ColorPicker : MonoBehaviour
 {
     // Properties
-    public ControllerInput Controller;
     public Slice SliceBehavior;
     public Renderer Blade;
     
@@ -12,7 +11,7 @@ public class ColorPicker : MonoBehaviour
     private RaycastHit[] _hits;
     private float _length;
     private GameObject _source;
-    private SpriteRenderer _sprite;
+    private Renderer _renderer;
     private string _name;
     
     void Start ()
@@ -20,7 +19,7 @@ public class ColorPicker : MonoBehaviour
         _hits = new RaycastHit[8];
         _length = SliceBehavior.Length;
         _source = SliceBehavior.Source;
-        _sprite = GetComponent<SpriteRenderer>();
+        _renderer = GetComponent<Renderer>();
         _name = gameObject.name;
     }
     
@@ -42,12 +41,13 @@ public class ColorPicker : MonoBehaviour
             if (hit.collider.gameObject.name == _name)
             {
                 Vector2 textureCoord = hit.textureCoord;
-                var hitColor = _sprite.sprite.texture.GetPixel((int)(_sprite.sprite.texture.width * textureCoord.x), (int)(_sprite.sprite.texture.height * textureCoord.y));
+                var texture = _renderer.material.mainTexture as Texture2D;
+                var hitColor = texture.GetPixel((int)(texture.width * textureCoord.x), (int)(texture.height * textureCoord.y));
                 Debug.Log("Hit: " + textureCoord + " = " + hitColor);
                 if (hitColor.a == 0) return;
                 var bladeMaterial = Blade.material;
                 bladeMaterial.color = hitColor;
-                bladeMaterial.SetColor("_EMISSION", hitColor);
+                bladeMaterial.SetColor("_EmissionColor", hitColor);
             }
         }
     }
