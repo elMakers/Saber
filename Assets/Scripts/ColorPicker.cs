@@ -43,7 +43,6 @@ public class ColorPicker : MonoBehaviour
                 Vector2 textureCoord = hit.textureCoord;
                 var texture = _renderer.material.mainTexture as Texture2D;
                 var hitColor = texture.GetPixel((int)(texture.width * textureCoord.x), (int)(texture.height * textureCoord.y));
-                Debug.Log("Hit: " + textureCoord + " = " + hitColor);
                 if (hitColor.a == 0) return;
                 var bladeMaterial = Blade.material;
                 bladeMaterial.color = hitColor;
