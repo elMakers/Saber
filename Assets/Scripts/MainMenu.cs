@@ -30,4 +30,9 @@ public class MainMenu : MonoBehaviour
 			MenuLayer.transform.rotation = Quaternion.Euler(targetRotation);
 		}
 	}
+
+	public bool IsActive()
+	{
+		return MenuLayer.activeSelf;
+	}
 }

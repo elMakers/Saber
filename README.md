@@ -6,7 +6,7 @@ Saber practice, just for fun!
 
 Use the trigger or swipe up/down to extend/retract the blade.
 Use the menu button to bring up a color picker.
-Hold the bumper to view the world mesh.
+Press the bumper to toggle the world mesh visibility (only while color picker is on)
 
 Slice up your room, have fun!
 

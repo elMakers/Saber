@@ -2,31 +2,38 @@
 using UnityEngine;
 
 public class ToggleVisibility : MonoBehaviour {
+	// Properties
 	public Material Occlusion;
 	public Material Wireframe;
 	public ControllerInput Input;
+	public MainMenu Menu;
+	
+	// State
+	private bool _visible;
 	
 	void Start ()
 	{
-		Input.OnBumperDown += OnBumperDown;
 		Input.OnBumperUp += OnBumperUp;
-	}
-	
-	void OnBumperDown()
-	{
-		SwapMaterial(Wireframe);
 	}
 	
 	void OnBumperUp()
 	{
-		SwapMaterial(Occlusion);
+		if (!Menu.IsActive()) return;
+		_visible = !_visible;
+		if (_visible)
+		{
+			SwapMaterial(Wireframe);
+		}
+		else
+		{
+			SwapMaterial(Occlusion);
+		}
 	}
 
 	private void SwapMaterial(Material material)
 	{
 		foreach (Transform child in transform)
 		{
-			
 			var renderer = child.gameObject.GetComponent<MeshRenderer>();
 			Material[] materials = renderer.materials;
 			materials[0] = material;
