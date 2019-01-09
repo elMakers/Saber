@@ -3,6 +3,7 @@
 ## 0.3
 
  - Add color picker
+ - Improved in-game saber model
 
 ## 0.2
 
