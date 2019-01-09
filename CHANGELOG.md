@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.3
+
+ - Add color picker
+
 ## 0.2
 
  - Add world mesh

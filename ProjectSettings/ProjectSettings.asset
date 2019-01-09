@@ -670,8 +670,8 @@ PlayerSettings:
     m_PrivateKeyPath: 
   luminIsChannelApp: 0
   luminVersion:
-    m_VersionCode: 1
-    m_VersionName: 0.2
+    m_VersionCode: 3
+    m_VersionName: 0.3
   luminPrivilege:
   - ControllerPose
   - WorldReconstruction
