@@ -6,6 +6,7 @@ Saber practice, just for fun!
 
 Use the trigger or swipe up/down to extend/retract the blade.
 Use the menu button to bring up a color picker.
+Press the bumper to deploy a practice drone. Bumper again to remove the drone.
 Press the bumper to toggle the world mesh visibility (only while color picker is on)
 
 Slice up your room, have fun!

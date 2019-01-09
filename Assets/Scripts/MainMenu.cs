@@ -7,6 +7,9 @@ public class MainMenu : MonoBehaviour
 	public GameObject MenuLayer;
 	public ControllerInput Controller;
 	public Slice SliceBehavior;
+	public DeployDrone DeployDroneBehavior;
+	public Drone DroneBehavior;
+	public ToggleVisibility ToggleVisibilityBehavior;
 
 	void Start ()
 	{
@@ -17,6 +20,16 @@ public class MainMenu : MonoBehaviour
 	{
 		MenuLayer.SetActive(!MenuLayer.activeSelf);
 		SliceBehavior.enabled = !MenuLayer.activeSelf;
+		DeployDroneBehavior.enabled = !MenuLayer.activeSelf;
+		ToggleVisibilityBehavior.enabled = MenuLayer.activeSelf;
+		if (MenuLayer.activeSelf)
+		{
+			DroneBehavior.Pause();
+		}
+		else
+		{
+			DroneBehavior.Resume();
+		}
 		if (MenuLayer.activeSelf)
 		{
 			var distance = SliceBehavior.Length / 2;

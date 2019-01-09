@@ -3,6 +3,7 @@
 ## 0.3
 
  - Add color picker
+ - Add practice drone (bumper to deploy)
  - Improved in-game saber model
 
 ## 0.2

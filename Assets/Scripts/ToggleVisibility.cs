@@ -6,7 +6,6 @@ public class ToggleVisibility : MonoBehaviour {
 	public Material Occlusion;
 	public Material Wireframe;
 	public ControllerInput Input;
-	public MainMenu Menu;
 	
 	// State
 	private bool _visible;
@@ -18,7 +17,6 @@ public class ToggleVisibility : MonoBehaviour {
 	
 	void OnBumperUp()
 	{
-		if (!Menu.IsActive()) return;
 		_visible = !_visible;
 		if (_visible)
 		{
