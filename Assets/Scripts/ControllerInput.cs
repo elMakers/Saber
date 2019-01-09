@@ -25,6 +25,8 @@ namespace MagicKit
         public event Action OnBumperUp;
         public event Action OnTouchDown;
         public event Action OnTouchUp;
+        public event Action OnHomeDown;
+        public event Action OnHomeUp;
 
         // ------ Public  Members ------
 
@@ -88,6 +90,7 @@ namespace MagicKit
         private bool _triggerDown;
         private bool _bumperDown;
         private bool _touchDown;
+        private bool _homeDown;
         private const float TriggerThresh = 0.2f;
 
         // ------ MonoBehaviour Methods ------
@@ -117,6 +120,7 @@ namespace MagicKit
             UpdateTriggerState();
             UpdateTouchGesturesState();
             UpdateBumperState();
+            UpdateMenuState();
             Update3Dof();
             Update6DoF();
 
@@ -216,6 +220,34 @@ namespace MagicKit
                 {
                     _bumperDown = false;
                     var handler = OnBumperUp;
+                    if (handler != null)
+                    {
+                        handler();
+                    }
+                }
+            }
+        }
+
+        private void UpdateMenuState()
+        {
+            if (_controller.State.ButtonState[(int)MLInputControllerButton.HomeTap] != 0)
+            {
+                if (!_homeDown)
+                {
+                    _homeDown = true;
+                    var handler = OnHomeDown;
+                    if (handler != null)
+                    {
+                        handler();
+                    }
+                }
+            }
+            else
+            {
+                if (_homeDown)
+                {
+                    _homeDown = false;
+                    var handler = OnHomeUp;
                     if (handler != null)
                     {
                         handler();
