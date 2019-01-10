@@ -17,6 +17,7 @@ public class ToggleVisibility : MonoBehaviour {
 	
 	void OnBumperUp()
 	{
+		if (!enabled) return;
 		_visible = !_visible;
 		if (_visible)
 		{

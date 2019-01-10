@@ -20,6 +20,7 @@ public class DeployDrone : MonoBehaviour
 
 	void OnBumperUp()
 	{
+		if (!enabled) return;
 		DroneObject.SetActive(!DroneObject.activeSelf);
 		if (DroneObject.activeSelf)
 		{
