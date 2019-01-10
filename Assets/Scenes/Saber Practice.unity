@@ -6364,6 +6364,9 @@ MonoBehaviour:
   ParticleQueueSize: 50
   SliceSoundMinCooldown: 0.1
   SliceSoundMaxCooldown: 0.5
+  SliceBuzzCooldown: 0.1
+  SliceBuzzMediumSpeed: 0.05
+  SliceBuzzHighSpeed: 0.1
   InnerDecalParticleSystem: {fileID: 1879137112}
   OuterDecalParticleSystem: {fileID: 866050156}
   ParticleOffset: 0.001

@@ -20,6 +20,7 @@ public class Swing : MonoBehaviour
 	private float[] _speedSamples;
 	private int _speedIndex;
 	private int _sampleCount;
+	private float _averageSpeed;
 
 	// Use this for initialization
 	void Start () 
@@ -53,16 +54,24 @@ public class Swing : MonoBehaviour
 			speedTotal += _speedSamples[i];
 		}
 
-		var averageSpeed = speedTotal / speedCount;
+		_averageSpeed = speedTotal / speedCount;
 		//Debug.Log("Speed: " + speed + ", avg: " + averageSpeed + " from " + _body.position);
 			
-		if (averageSpeed >= MinimumSwingSpeed && _extend.Extended())
+		if (_averageSpeed >= MinimumSwingSpeed && _extend.Extended())
 		{
 			// Debug.Log("SWING? " + currentTime + " : " + (_lastSwingSound + SwingSoundTimeout) + ", speed: " + averageSpeed);
 			if (currentTime < _lastSwingSound + SwingSoundTimeout) return;
 			_lastSwingSound = currentTime;
 			var clipIndex = Random.Range(0, SwingSounds.Length);
 			SwingSource.PlayOneShot(SwingSounds[clipIndex]);
+		}
+	}
+	
+	public float AverageSpeed
+	{
+		get
+		{
+			return _averageSpeed;
 		}
 	}
 }

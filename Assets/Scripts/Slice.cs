@@ -1,5 +1,7 @@
 ﻿using System;
+using MagicKit;
 using UnityEngine;
+using UnityEngine.XR.MagicLeap;
 using Random = UnityEngine.Random;
 
 public class Slice : MonoBehaviour
@@ -19,6 +21,9 @@ public class Slice : MonoBehaviour
 	public int ParticleQueueSize = 50;
 	public float SliceSoundMinCooldown = 0.1f;
 	public float SliceSoundMaxCooldown = 0.5f;
+	public float SliceBuzzCooldown = 0.3f;
+	public float SliceBuzzMediumSpeed = 0.2f;
+	public float SliceBuzzHighSpeed = 0.5f;
 	public ParticleSystem InnerDecalParticleSystem;
 	public ParticleSystem OuterDecalParticleSystem;
 	public float ParticleOffset = 0.001f;
@@ -30,6 +35,7 @@ public class Slice : MonoBehaviour
 	private int _particleQueueIndex;
 	private float _lastSliceSound;
 	private float _lastCrackleSound;
+	private float _lastBuzz;
 	private float _sliceSoundCooldown;
 	private float _crackleSoundCooldown;
 	private ParticleSystem.Particle[] _particles;
@@ -37,12 +43,16 @@ public class Slice : MonoBehaviour
 	private RaycastHit[] _hits;
 	private RaycastHit[] _adjacentHits;
 	private Vector3 _lastHit;
+	private ControllerInput _controller;
+	private Swing _swing;
 	private bool _isFirstHit = true;
 	private bool _isHit = false;
 
 	void Start()
 	{
 		_extend = GetComponent<Extend>();
+		_controller = GetComponent<ControllerInput>();
+		_swing = GetComponent<Swing>();
 		_particleQueue = new GameObject[ParticleQueueSize];
 		_particles = new ParticleSystem.Particle[InnerDecalParticleSystem.main.maxParticles];
 		_hits = new RaycastHit[8];
@@ -208,6 +218,20 @@ public class Slice : MonoBehaviour
 				Sound.transform.position = firstHit.point;
 				Sound.PlayOneShot(Sound.clip);
 			}
+		}
+		
+		// Add haptics
+		if (Time.time > _lastBuzz + SliceBuzzCooldown)
+		{
+			_lastBuzz = Time.time;
+			MLInputControllerFeedbackIntensity intensity = MLInputControllerFeedbackIntensity.Low;
+			var speed = _swing.AverageSpeed;
+			if (speed >= SliceBuzzMediumSpeed)
+				intensity = MLInputControllerFeedbackIntensity.Medium;
+			if (speed >= SliceBuzzHighSpeed)
+				intensity = MLInputControllerFeedbackIntensity.High;
+
+			_controller.Controller.StartFeedbackPatternVibe(MLInputControllerFeedbackPatternVibe.Buzz, intensity);
 		}
 
 		// Check for distance travelled and interpolate

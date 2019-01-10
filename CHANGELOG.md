@@ -5,6 +5,7 @@
  - Add color picker
  - Add practice drone (bumper to deploy)
  - Improved in-game saber model
+ - Added haptic feedback when hitting
 
 ## 0.2
 
