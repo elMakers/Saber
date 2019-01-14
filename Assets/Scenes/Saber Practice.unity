@@ -6258,6 +6258,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1767313828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1767313821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 376dc6081ab274852ba8a0cfd318df5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Projectile: {fileID: 1908289592636562, guid: c2581087da1b945abbf0371b2dbcfc37, type: 2}
+  MinFrequency: 0.3
+  MaxFrequency: 1.2
+  Speed: 100
+  SpawnOffset: 0.5
 --- !u!1 &1786997105
 GameObject:
   m_ObjectHideFlags: 0
