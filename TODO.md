@@ -1,7 +1,5 @@
 # TODO
 
- - Use layers so saber only slices world (not drone or UI)
- - Maybe don't need to disable slicing behavior on menu if above
  - Improve icon model
  - Projector for lighted blade
  

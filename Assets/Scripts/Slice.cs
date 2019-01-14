@@ -126,6 +126,9 @@ public class Slice : MonoBehaviour
 			// Play spark particles
 			var particleRotation = Quaternion.LookRotation(hit.normal);
 			PlaySparks(hit, particleRotation);
+
+			// Only add decals to the world mesh, layer 9
+			if (hit.collider.gameObject.layer != 9) continue;
 			
 			// Add decal particle
 			var mainConfig = InnerDecalParticleSystem.main;
