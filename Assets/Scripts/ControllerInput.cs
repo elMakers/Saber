@@ -89,6 +89,7 @@ namespace MagicKit
         private bool _triggerDown;
         private bool _bumperDown;
         private bool _touchDown;
+        private Rigidbody _body;
         private const float TriggerThresh = 0.2f;
 
         // ------ MonoBehaviour Methods ------
@@ -96,6 +97,7 @@ namespace MagicKit
         private void OnEnable()
         {
             InitializeController();
+            _body = GetComponent<Rigidbody>();
         }
         
         private void OnDisable()
@@ -123,8 +125,8 @@ namespace MagicKit
 
             if(_updateTransform)
             {
-                transform.position = position;
-                transform.rotation = orientation;
+                _body.MovePosition(position);
+                _body.MoveRotation(orientation);
             }
         }
 
