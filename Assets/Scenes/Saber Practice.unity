@@ -5354,7 +5354,8 @@ GameObject:
   - component: {fileID: 973181132}
   - component: {fileID: 973181135}
   - component: {fileID: 973181134}
-  m_Layer: 0
+  - component: {fileID: 973181133}
+  m_Layer: 10
   m_Name: Blade Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5374,6 +5375,19 @@ Transform:
   m_Father: {fileID: 1181844270}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!136 &973181133
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 973181131}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.0010655153
+  m_Height: 0.08711792
+  m_Direction: 2
+  m_Center: {x: -0.000093992334, y: -0.00000006540901, z: 0.06077263}
 --- !u!23 &973181134
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6257,6 +6271,7 @@ GameObject:
   - component: {fileID: 1786997109}
   - component: {fileID: 1786997111}
   - component: {fileID: 1786997110}
+  - component: {fileID: 1786997112}
   m_Layer: 0
   m_Name: Controllable Saber
   m_TagString: Untagged
@@ -6384,6 +6399,21 @@ MonoBehaviour:
   OuterDecalParticleSystem: {fileID: 866050156}
   ParticleOffset: 0.001
   DecalMinDistance: 0.005
+--- !u!54 &1786997112
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1786997105}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!4 &1846058694
 Transform:
   m_ObjectHideFlags: 0
