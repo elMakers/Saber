@@ -9,15 +9,23 @@ public class FireBlaster : MonoBehaviour
 	public float MaxFrequency = 1.2f;
 	public float Speed = 2.0f;
 	public float SpawnOffset = 2.0f;
+	public float MinPitch = 0.8f;
+	public float MaxPitch = 1.2f;
+	public AudioSource Sound;
+	public float MaxHeight = 5.0f;
+	public float MinHeight = 0.1f;
+	public float MaxSide = 1.0f;
 
 	// State
 	private float _nextFire;
 	private Rigidbody _body;
+	private RaycastHit[] _hits;
 	
 	void Start ()
 	{
 		ScheduleFire();
 		_body = GetComponent<Rigidbody>();
+		_hits = new RaycastHit[1];
 	}
 
 	private void ScheduleFire()
@@ -36,10 +44,31 @@ public class FireBlaster : MonoBehaviour
 
 	private void Fire()
 	{
-		Vector3 direction = Camera.main.transform.position - _body.position;
+		// Look for the ground
+		Vector3 targetLocation = Camera.main.transform.position;
+		var hitCount = Physics.RaycastNonAlloc(targetLocation, Vector3.down, _hits, MaxHeight, 9);
+		if (hitCount > 0)
+		{
+			var distanceToFloor = targetLocation.y - _hits[0].point.y;
+			if (distanceToFloor > MinHeight)
+			{
+				distanceToFloor -= MinHeight;
+				targetLocation.y -= Random.Range(0, distanceToFloor);
+			}
+		}
+		
+		// Randomly target right or left
+		targetLocation.x += Random.Range(-MaxSide, MaxSide);
+		targetLocation.z += Random.Range(-MaxSide, MaxSide);
+		
+		Vector3 direction = targetLocation - _body.position;
 		direction = direction.normalized;
 		var spawnLocation = _body.position + direction * SpawnOffset;
 		GameObject spawned = Instantiate(Projectile, spawnLocation, Quaternion.LookRotation(direction));
 		spawned.GetComponent<Rigidbody>().AddForce(direction * Speed);
+		
+		Sound.pitch = Random.Range(MinPitch, MaxPitch);
+		//Sound.transform.position = _body.position;
+		Sound.PlayOneShot(Sound.clip);
 	}
 }
