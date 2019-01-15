@@ -12,7 +12,7 @@ public class Projectile : MonoBehaviour
 
 	void OnCollisionEnter(Collision col)
 	{
-		Debug.Log("Collided with " + col.collider.name);
+		// Debug.Log("Collided with " + col.collider.name);
 		
 		// Spawn an explosion
 		if (Explosion)

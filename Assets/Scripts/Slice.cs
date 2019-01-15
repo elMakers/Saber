@@ -47,6 +47,7 @@ public class Slice : MonoBehaviour
 	private Swing _swing;
 	private bool _isFirstHit = true;
 	private bool _isHit = false;
+	private int _layerMask;
 
 	void Start()
 	{
@@ -57,6 +58,7 @@ public class Slice : MonoBehaviour
 		_particles = new ParticleSystem.Particle[InnerDecalParticleSystem.main.maxParticles];
 		_hits = new RaycastHit[8];
 		_adjacentHits = new RaycastHit[1];
+		_layerMask = 1 | (1 << 9);
 		ResetSliceCooldown();
 		ResetCrackleCooldown();
 	}
@@ -104,7 +106,7 @@ public class Slice : MonoBehaviour
 			var angle = new Vector3(Mathf.Cos(Mathf.PI * i / AdjacentCount), Mathf.Sin(Mathf.PI * i / AdjacentCount), 0);
 			var tangent = Vector3.Cross(direction, angle);
 			var adjacentPosition = position + (tangent * Width);
-			if (Physics.RaycastNonAlloc(adjacentPosition, direction, _adjacentHits, Length) != 0)
+			if (Physics.RaycastNonAlloc(adjacentPosition, direction, _adjacentHits, Length, _layerMask) != 0)
 			{
 				if (_adjacentHits[0].collider == firstHit.collider)
 				{
@@ -189,7 +191,7 @@ public class Slice : MonoBehaviour
 		// Debug.DrawLine(position, position + direction * Length, Color.yellow, 2.0f, false);
 		var wasHit = _isHit;
 		_isHit = false;
-		var hitCount = Physics.RaycastNonAlloc(position, direction, _hits, Length);
+		var hitCount = Physics.RaycastNonAlloc(position, direction, _hits, Length, _layerMask);
 		if (hitCount == 0)
 		{
 			_isFirstHit = true;
@@ -284,7 +286,7 @@ public class Slice : MonoBehaviour
 			foreach (Vector3 target in interpolateTargets)
 			{
 				var interpolateDirection = target - position;
-				hitCount = Physics.RaycastNonAlloc(position, interpolateDirection, _hits, Length);
+				hitCount = Physics.RaycastNonAlloc(position, interpolateDirection, _hits, Length, _layerMask);
 				if (hitCount != 0)
 				{
 					CheckHits(hitCount, position, interpolateDirection);

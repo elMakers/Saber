@@ -5640,7 +5640,7 @@ GameObject:
   - component: {fileID: 1407309684}
   - component: {fileID: 1407309683}
   - component: {fileID: 1407309682}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Color Picker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
