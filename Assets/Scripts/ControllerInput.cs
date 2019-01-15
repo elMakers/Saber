@@ -125,8 +125,8 @@ namespace MagicKit
 
             if(_updateTransform)
             {
-                _body.MovePosition(position);
-                _body.MoveRotation(orientation);
+                transform.position = position;
+                transform.rotation = orientation;
             }
         }
 
