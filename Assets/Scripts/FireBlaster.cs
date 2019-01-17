@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿using MagicKit;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class FireBlaster : MonoBehaviour
 {
 	// Properties
 	public GameObject Projectile;
+	public ControllerInput Controller;
 	public float MinFrequency = 0.3f;
 	public float MaxFrequency = 1.2f;
 	public float Speed = 2.0f;
@@ -65,6 +67,7 @@ public class FireBlaster : MonoBehaviour
 		direction = direction.normalized;
 		var spawnLocation = _body.position + direction * SpawnOffset;
 		GameObject spawned = Instantiate(Projectile, spawnLocation, Quaternion.LookRotation(direction));
+		spawned.GetComponent<Projectile>().SetController(Controller);
 		spawned.GetComponent<Rigidbody>().AddForce(direction * Speed);
 		
 		Sound.pitch = Random.Range(MinPitch, MaxPitch);

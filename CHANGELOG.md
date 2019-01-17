@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.4
+
+ - Add haptic feedback when a blaster shot hits the saber blade
+
 ## 0.3
 
  - Add color picker

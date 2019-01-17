@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using MagicKit;
+using UnityEngine;
+using UnityEngine.XR.MagicLeap;
 
 public class Projectile : MonoBehaviour 
 {
@@ -8,6 +10,9 @@ public class Projectile : MonoBehaviour
 	public AudioSource ReflectSound;
 	public float ReflectMinPitch = 0.8f;
 	public float ReflectMaxPitch = 1.2f;
+	
+	// Private data that needs to be initialized
+	private ControllerInput _controller;
 	
 	void Awake()
 	{
@@ -19,9 +24,14 @@ public class Projectile : MonoBehaviour
 		// Check for blade reflect
 		if (col.collider.gameObject.layer == 10)
 		{
+			// Play reflect sound
 			var sound = Instantiate(ReflectSound, transform.position, Quaternion.identity);
 			sound.pitch = Random.Range(ReflectMinPitch, ReflectMaxPitch);
 			sound.PlayOneShot(sound.clip);
+			
+			// Add some haptics
+			MLInputControllerFeedbackIntensity intensity = MLInputControllerFeedbackIntensity.Medium;
+			_controller.Controller.StartFeedbackPatternVibe(MLInputControllerFeedbackPatternVibe.Buzz, intensity);
 			
 			// TODO: Reflect instead of destroy
 		}
@@ -34,5 +44,10 @@ public class Projectile : MonoBehaviour
 		}
 		
 		Destroy(gameObject);
+	}
+
+	public void SetController(ControllerInput controller)
+	{
+		_controller = controller;
 	}
 }

@@ -6366,6 +6366,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Projectile: {fileID: 1908289592636562, guid: c2581087da1b945abbf0371b2dbcfc37, type: 2}
+  Controller: {fileID: 1786997106}
   MinFrequency: 0.3
   MaxFrequency: 1.2
   Speed: 100
